@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "e7c78485-ffe5-4648-a283-38734ba0a14d",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30689774",
+		"_collection_link": "https://speeding-eclipse-678796.postman.co/workspace/bubbles-nerd~f898685e-bd03-43d5-9520-bc653e3439a0/collection/30689774-e7c78485-ffe5-4648-a283-38734ba0a14d?action=share&source=collection_link&creator=30689774"
+	},
+	"item": [
+		{
+			"name": "student",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_type",
+									"value": "student",
+									"description": "student or teacher",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "saria bakeer",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "saria@saria",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "0900000001",
+									"type": "text"
+								},
+								{
+									"key": "school",
+									"value": "دار الحكمة",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/D:/WALLPAPERS/Screenshot 2023-09-15 172442.jpg",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "1",
+									"description": "الرياضيات",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "2",
+									"description": "الفيزياء",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "3",
+									"description": "الكيمياء",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "4",
+									"description": "علم الاحياء",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "5",
+									"description": "اللغة العربية",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "6",
+									"description": "اللغة الانكليزية",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "7",
+									"description": "اللغة الفرنسية",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "8",
+									"description": "اللغة الروسية",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "9",
+									"description": "التربية الوطنية",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "10",
+									"description": "التربية الدينية",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "11",
+									"description": "الفلسفة",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "12",
+									"description": "الجغرافية",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject[]",
+									"value": "13",
+									"description": "التاريخ",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{url}}/user/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "saria@saria",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{url}}/user/auth/login"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://127.0.0.1:8000/api",
+			"type": "string"
+		}
+	]
+}
