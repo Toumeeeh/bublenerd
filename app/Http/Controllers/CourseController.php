@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\MyMiddlewares\IsAdmin;
 use App\Http\Middleware\MyMiddlewares\IsAdminOrTeacher;
-use App\Http\Middleware\MyMiddlewares\IsStudent;
-use App\Http\Middleware\MyMiddlewares\IsTeacher;
-use App\Http\Requests\BuyRequest;
+use App\Http\Requests\BuyCOurse\BuyRequest;
 use App\Http\Requests\Course\StoreCourseRequest;
 use App\Http\Requests\Course\UpdateCourseRequest;
 use App\Services\CourseService;
 use App\Services\NotificationService;
-use Illuminate\Http\Request;
 
 
 class CourseController extends Controller
