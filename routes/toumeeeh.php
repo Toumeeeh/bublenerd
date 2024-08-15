@@ -6,6 +6,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReplyOnCommentController;
 use App\Http\Controllers\SolvedQuizController;
@@ -31,11 +32,12 @@ Route::group(['prefix'=>'course'], function () {
     Route::delete('/delete/{id}',[CourseController::class,'delete']);
     Route::get('/getByUser/{id}',     [CourseController::class,'getByUser']);
     Route::get('/getWithUser/{id}',     [CourseController::class,'getWithUser']);
-    Route::get('/getWithLesson/{id}/{userId}',     [CourseController::class,'getWithLesson']);
+    Route::get('/getWithLesson/{id}',     [CourseController::class,'getWithLesson']);
     Route::get('/searchForCourse/{name}',     [CourseController::class,'searchForCourse']);
     Route::get('/getByUSerAndSubject/{teacherId}/{subjectId}', [CourseController::class, 'getByUSerAndSubject']);
     Route::post('/approved/{id}',     [CourseController::class,'approved']);
     Route::post('/buyCourse',     [CourseController::class,'buyCourse']);
+
 
 
 });
@@ -123,11 +125,15 @@ Route::group(['prefix'=>'video'], function () {
 
 Route::group(['prefix'=>'user'],function(){
     Route::get('getAllTeacher',[AuthController::class,'getAllTeacher']);
+    Route::get('getAllUser',[AuthController::class,'getAllUser']);
+
     Route::get('searchForTeacher/{name}',[AuthController::class,'searchForTeacher']);
     Route::get('/getById/{id}',     [AuthController::class,'getById']);
     Route::post('/update/{id}',[AuthController::class,'update']);
     Route::get('getTeacher/{id}',[AuthController::class,'getTeacher']);
     Route::post('addMoney',[AuthController::class,'addMoney']);
+
+    Route::get('getWallet',[AuthController::class,'getWallet']);
 
 });
 
@@ -135,7 +141,6 @@ Route::group(['prefix'=>'quiz'], function () {
     Route::get('/index',   [QuizController::class,'index']);
     Route::get('/getByUer',   [QuizController::class,'getByUser']);
     Route::get('/getById/{id}',   [QuizController::class,'getById']);
-
     Route::post('/create',[QuizController::class,'create']);
     Route::post('/update/{id}',[QuizController::class,'update']);
     Route::delete('/delete/{id}',[QuizController::class,'delete']);
@@ -148,6 +153,8 @@ Route::group(['prefix'=>'solve'], function () {
 Route::group(['prefix'=>'chat'], function () {
     Route::post('/store',[ChatController::class,'store']);
     Route::get('/getChatBetweenUsers/{id1}/{id2}',[ChatController::class,'getChatBetweenUsers']);
+    Route::get('/sendNotification/{id}',[ChatController::class,'sendNotification']);
+
 });
 
 Route::group(['prefix'=>'Subscription'], function () {
@@ -160,3 +167,7 @@ Route::group(['prefix'=>'Book'], function () {
     Route::get('/getById/{id}',   [BookController::class,'getById']);
     Route::get('/index',   [BookController::class,'index']);
 });
+Route::group(['prefix'=>'notification'], function () {
+    Route::get('/index',   [\App\Http\Controllers\NotificationController::class,'index']);
+});
+Route::post('/send-notification', [NotificationController::class, 'sendNotification']);

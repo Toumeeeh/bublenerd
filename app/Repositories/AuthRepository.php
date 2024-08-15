@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Traits\ResponseTrait;
 use App\Traits\StorePhotoTrait;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use NextApps\VerificationCode\VerificationCode;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -81,7 +82,23 @@ class AuthRepository implements AuthRepositoryInterface
             throw new userException("Unable to login: " . $e->getMessage());
         }
     }
+    public function loginAsAdmin(array $credentials)
+    {
+        try {
+            DB::beginTransaction();
 
+            $token = auth('api')->attempt($credentials);
+
+            if ($token) {
+                $user = User::where('email', $credentials['email'])->first();
+                DB::commit();
+                return $this->userWithToken($user, $token);
+            } else
+                throw new UserException('wrong password');
+        } catch (\Exception $e) {
+            throw new userException("Unable to login: " . $e->getMessage());
+        }
+    }
 
     public function getAllTeacher()
     {
@@ -97,6 +114,16 @@ class AuthRepository implements AuthRepositoryInterface
     }
 
 
+    public function getAllUser()
+    {
+        $users = User::where('user_type', 'teacher')->orwhere('user_type', 'student')->get();
+
+        if ($users->isEmpty()) {
+            throw new NotFoundException();
+        }
+
+        return $users;
+    }
 
     public function getTeacher(int $id)
     {

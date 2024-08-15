@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Events\CourseCreated;
 use App\Exceptions\NotFoundException;
 use App\Models\Lesson;
+use App\Models\Notification;
 use App\Models\Purchase;
 use App\Models\Subject;
 use App\Models\Subscription;
@@ -66,24 +67,31 @@ class CourseRepository implements CourseRepositoryInterface
         }
         return $user;
     }
-    public function getByUSerAndSubject(int $userId,  int $subjectId)
-
+    public function getByUserAndSubject(int $userId, int $subjectId)
     {
-        $course = Course::with('userRate')
-          ->withCount(['ratings as average_rating' => function ($query) {
-              $query->select(DB::raw('coalesce(avg(ratings.rating),0)'));
-                  }])->where('user_id', $userId)
+
+        $courses = Course::with('userRate')
+            ->withCount(['ratings as average_rating' => function ($query) {
+                $query->select(DB::raw('coalesce(avg(ratings.rating), 0)'));
+            }])
+            ->where('user_id', $userId)
             ->where('subject_id', $subjectId)
-            ->where('approved'==='1')
+            ->where('approved', '1')
             ->get();
-        if (!$course) {
+
+        if ($courses->isEmpty()) {
             throw new NotFoundException();
         }
+            $auth_user = Auth::id();
 
-        return $course;
+        foreach ($courses as $course) {
 
+            $course->alreadyPurchased = Purchase::where('user_id', $auth_user)
+                ->where('course_id', $course->id)
+                ->exists();
+        }
+        return ['course'=>$courses];
     }
-
     public function getWithUser(int $id)
     {
         $course = $this->course->with('user')
@@ -95,7 +103,7 @@ class CourseRepository implements CourseRepositoryInterface
             throw new NotFoundException('Not found');
         }
 
-        return $course;
+        return  $course;
     }
 
     public function getWithLesson(int $id)
@@ -130,7 +138,7 @@ class CourseRepository implements CourseRepositoryInterface
                 : null;
 
             $course->save();
-
+            $courseId = $course->id;
 
 
             // Tag Extraction
@@ -141,6 +149,9 @@ class CourseRepository implements CourseRepositoryInterface
                 $tagModel = Tag::firstOrCreate(['name' => $tagName]);
                 $course->tags()->attach($tagModel);
             });
+
+            $courses=Course::with(['user','subject'])->where('id',$courseId)->first();
+
             $teacherId = $course->user_id;
 
             $subscribedUserIds = Subscription::where('teacher_id', $teacherId)->pluck('user_id')->toArray();
@@ -150,9 +161,28 @@ class CourseRepository implements CourseRepositoryInterface
             if (!empty($userTokens)) {
 
                 $teacherName = $course->user->name;
-                $notificationBody = 'A new course: ' .  $course->name . 'by: ' .$teacherName;
-                $notificationService->notification($userTokens, 'New Course', $notificationBody);
+                $notificationBody = 'A new course: ' .  $course->name . ' by: ' .$teacherName;
+                $additionalData = [
+                    'type' => 'course',
+                    'course' => $course,
+                    'subject_id'=>$courses->subject->id,
+                    'subject_name'=>$courses->subject->name,
+                    'user_id'=>$courses->user->id,
+                    'user_name'=>$courses->user->name,
+                    'user_avatar'=>$courses->user->avatar,
 
+
+                ];
+
+                $notificationService->notification($userTokens, 'New Course', $notificationBody,$additionalData);
+                foreach ($subscribedUserIds as $subscribedUserId) {
+                    $notification = new Notification;
+                    $notification->receiver=$subscribedUserId;
+                    $notification->user_id = $course->user_id;
+                    $notification->type = 'course';
+                    $notification->course_id = $courseId ;
+                    $notification->save();
+                }
             }
 
             DB::commit();
@@ -196,11 +226,11 @@ class CourseRepository implements CourseRepositoryInterface
                 ->exists();
 
             if ($alreadyPurchased) {
-                throw new Exception('You have already purchased this course.');
+                return ('You have already purchased this course.');
             }
 
             if ( $user->wallet < $course->price) {
-                throw new Exception('Insufficient wallet balance');
+                return('Insufficient wallet balance');
             }
 
 
@@ -234,7 +264,6 @@ class CourseRepository implements CourseRepositoryInterface
 
             $course->name = $data['name']?? $course->name;;
             $course->price = $data['price']??$course->price;
-            $course->old_price = $data['old_price']??$course->old_price;
             $course->description = $data['description']??$course->description;
             $course->user_id = Auth::id()??$course->user_id;
 
@@ -267,15 +296,24 @@ class CourseRepository implements CourseRepositoryInterface
 
     public function searchForCourse($name)
     {
-        $course = Course::with('userRate')
+        $courses = Course::with('userRate')
             ->withCount(['ratings as average_rating' => function ($query) {
                 $query->select(DB::raw('coalesce(avg(ratings.rating),0)'));
             }])->where('name', 'like', '%' . $name . '%')
             ->get();
+        $auth_user = Auth::id();
+
+        foreach ($courses as $course) {
+
+            $course->alreadyPurchased = Purchase::where('user_id', $auth_user)
+                ->where('course_id', $course->id)
+                ->exists();
+        }
+
         if (!$course) {
             throw new NotFoundException();
         }
-            return $course;
+        return ['course'=>$courses];
     }
 
 }

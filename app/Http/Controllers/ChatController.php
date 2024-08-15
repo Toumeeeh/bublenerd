@@ -2,29 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Chat\UpdateChatRequest;
+use App\Http\Requests\Chat\StoreChatRequest;
+use App\Http\Requests\Subcripation\Subcripation\Chat\UpdateChatRequest;
 use App\Models\Chat;
+use App\Models\Notification;
+use App\Models\User;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Contract\Firestore;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
-    protected $firestore;
+
 
     public function __construct(Firestore $firestore)
     {
-        $this->firestore = $firestore;
-        $this->middleware(['auth:api']);
+
+        $this->middleware(['auth:api'])->only('sendNotification');
     }
 
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         try {
@@ -34,11 +32,10 @@ class ChatController extends Controller
             $minUserId = min($user1Id, $user2Id);
             $chatRoomName = "ChatRoom{$maxUserId}-{$minUserId}";
 
-            // Create or access the 'chatrooms' collection
 
             $chatroomDoc = $this->firestore->database()->collection('chatting')->document($chatRoomName);
 
-            // Create or access the 'chats' subcollection
+
             $chatRef = $chatroomDoc->collection('chats')->add([
                 'message' => $request->message,
                 'user1_id' => $user1Id,
@@ -57,19 +54,34 @@ class ChatController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateChatRequest $request, Chat $chat)
+    public function sendNotification(StoreChatRequest $request, NotificationService $notificationService,int $id)
     {
-        //
+        $user1Id = Auth::id();
+
+
+        $user2 = User::find($id);
+
+        $userTokens = User::where('id', $id)->pluck('device_token')->toArray();
+
+        $user1 = User::find($user1Id);
+
+            $title = 'New Message';
+            $body = $user1->name . ' has sent you a message';
+            $additionalData = [
+                'type' => 'chat',
+                'sender' => $user1,
+                'user_id'=>$user1->id,
+                'user_name'=>$user1->name,
+                'user_phone'=>$user1->phone,
+                'user_avatar'=>$user1->avatar,
+
+            ];
+            $notificationService->notification($userTokens, $title, $body,$additionalData);
+
+
+        return [
+            'data'=>$additionalData,
+            'user2'=>$user2];
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Chat $chat)
-    {
-        //
-    }
 }

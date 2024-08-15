@@ -7,8 +7,11 @@ interface AuthRepositoryInterface
     public function register(array $data);
 
     public function login(array $credentials);
+    public function loginAsAdmin(array $credentials);
 
     public function  getAllTeacher();
+    public function  getAllUser();
+
     public function  getTeacher(int $id);
     public function searchForTeacher($name);
 

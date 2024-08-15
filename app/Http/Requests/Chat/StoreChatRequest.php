@@ -22,10 +22,7 @@ class StoreChatRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'message'=>'string',
-   'user1Id'=>'int',
-   'user2Id'=>'int',
-   'chat_room_id'=>'int'
+'user2_id'=>'int'
         ];
     }
 }

@@ -22,7 +22,7 @@ class Quiz extends Model
     {
         return $this->hasMany(SolvedQuiz::class)
             ->where('user_id', auth()->id());
-         //  ->select(['id','solve','quiz_id','user_id']);
+
 
     }
 

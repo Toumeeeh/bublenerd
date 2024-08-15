@@ -20,6 +20,7 @@ Route::group(['prefix'=>'user/auth'], function (){
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/loginAsAdmin', [AuthController::class, 'loginAsAdmin']);
 
 
     Route::post('/email-verification', [VerificationController::class, 'emailVerification']);

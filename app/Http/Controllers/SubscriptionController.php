@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\MyMiddlewares\IsAdminOrTeacher;
-use App\Http\Requests\StoreSubscriptionRequest;
+use App\Http\Requests\Subcripation\StoreSubscriptionRequest;
 use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use App\Models\Subscription;

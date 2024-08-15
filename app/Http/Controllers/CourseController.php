@@ -19,7 +19,7 @@ class CourseController extends Controller
     {
         $this->courseService = $courseService;
         $this->middleware(['auth:api', IsAdminOrTeacher::class])->only('create','delete','update');
-        $this->middleware(['auth:api'])->only('getByUser','getWithLesson','searchForCourse','buyCourse');
+        $this->middleware(['auth:api'])->only('getByUser','getWithLesson','searchForCourse','buyCourse','getByUSerAndSubject');
 
     }
 

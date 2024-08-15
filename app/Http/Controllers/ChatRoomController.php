@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ChatRoom\StoreChatRoomRequest;
-use App\Http\Requests\ChatRoom\UpdateChatRoomRequest;
+use App\Http\Requests\Subcripation\Subcripation\ChatRoom\StoreChatRoomRequest;
+use App\Http\Requests\Subcripation\Subcripation\ChatRoom\UpdateChatRoomRequest;
 use App\Models\ChatRoom;
 
 class ChatRoomController extends Controller

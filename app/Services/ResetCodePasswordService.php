@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Exceptions\FailedException;
-use App\Http\Requests\ResetPassword\CheckCodeRequest;
-use App\Http\Requests\ResetPassword\ForgotPasswordRequest;
-use App\Http\Requests\ResetPassword\ResetPasswordRequest;
+use App\Http\Requests\Subcripation\Subcripation\ResetPassword\CheckCodeRequest;
+use App\Http\Requests\Subcripation\Subcripation\ResetPassword\ForgotPasswordRequest;
+use App\Http\Requests\Subcripation\Subcripation\ResetPassword\ResetPasswordRequest;
 use App\Mail\SendCodeResetPassword;
 use App\Models\ResetCodePassword;
 use App\Models\User;

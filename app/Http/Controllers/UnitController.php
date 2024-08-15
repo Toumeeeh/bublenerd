@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Unit\StoreUnitRequest;
-use App\Http\Requests\Unit\UpdateUnitRequest;
+use App\Http\Requests\Subcripation\Subcripation\Unit\StoreUnitRequest;
+use App\Http\Requests\Subcripation\Subcripation\Unit\UpdateUnitRequest;
 use App\Services\UnitService;
 
 class UnitController extends Controller

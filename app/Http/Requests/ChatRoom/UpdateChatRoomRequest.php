@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\ChatRoom;
+namespace App\Http\Requests\Subcripation\Subcripation\ChatRoom;
 
 use Illuminate\Foundation\Http\FormRequest;
 

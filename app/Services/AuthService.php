@@ -49,6 +49,17 @@ class AuthService
         }
     }
 
+    public function loginAsAdmin(array $credentials)
+    {
+        try {
+            $userWithToken = $this->authRepository->loginAsAdmin($credentials);
+
+            return $this->successWithData($userWithToken, 'logged in successfully');
+        }catch (\Exception $e){
+            return $this->failed($e->getMessage(), 401);
+        }
+    }
+
     public function logout()
     {
         try {
@@ -65,6 +76,12 @@ class AuthService
       $data=$this->authRepository->getAllTeacher();
 
       return $this->successWithData($data,'operation completed');
+    }
+    public function getAllUser(){
+
+        $data=$this->authRepository->getAllUser();
+
+        return $this->successWithData($data,'operation completed');
     }
     public function getTeacher(int $id){
 

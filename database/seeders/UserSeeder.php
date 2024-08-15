@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'bio'=>'hello',
             'avatar'=>'storage/user-avatars/avatar.png',
             'password'=> Hash::make('password'),
-            'device_token'=>'fake_token_',
+            'device_token'=>'d0lKNrtzSMqCqp1ypHoovS:APA91bGcsanKu2xoSKcTAfTDTeaJcLkM6dV-8-iZQbCe4W-ux73LXtnG5ulu-Koh7FzHubzHed7vslxixxN1OX-3ZtDvbulzecdzgPzyETCKk_xGAkaElH56trjl4fTX1LwCENYldZtG',
             'wallet'=>'1000000'
         ]);
 

@@ -10,7 +10,7 @@ class Chat extends Model
 {
     use HasFactory;
 
-    protected $fillable =['message','user_id1','user_id2','chat_room_id'];
+    protected $fillable =['message','user_id1','user_id2','chat_room_id','user'];
 
     protected $hidden=['created_at',
         'updated_at'];

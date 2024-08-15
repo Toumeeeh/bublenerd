@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\MyMiddlewares\IsAdmin;
 use App\Http\Middleware\MyMiddlewares\IsAdminOrTeacher;
 use App\Http\Middleware\MyMiddlewares\IsTeacher;
+
+
 use App\Http\Requests\video\StoreVideoRequest;
 use App\Http\Requests\video\UpdateVideoRequest;
 use App\Services\VideoService;
