@@ -25,7 +25,7 @@ use App\Http\Controllers\QuizController;
 
 
 Route::group(['prefix'=>'course'], function () {
-    Route::get('/index',   [CourseController::class,'index']);
+    Route::get('/get',   [CourseController::class,'index']);
     Route::get('/getById/{id}',     [CourseController::class,'getById']);
     Route::post('/create',[CourseController::class,'create']);
     Route::post('/update/{id}',[CourseController::class,'update']);
@@ -132,7 +132,7 @@ Route::group(['prefix'=>'user'],function(){
     Route::post('/update/{id}',[AuthController::class,'update']);
     Route::get('getTeacher/{id}',[AuthController::class,'getTeacher']);
     Route::post('addMoney',[AuthController::class,'addMoney']);
-
+    Route::delete('/delete/{id}',[AuthController::class,'delete']);
     Route::get('getWallet',[AuthController::class,'getWallet']);
 
 });

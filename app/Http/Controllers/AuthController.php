@@ -79,6 +79,10 @@ use ResponseTrait;
         return $this->authService->addMoney($data->safe()->all());
 
     }
+    public function delete(int $id)
+    {
+        return $this->authService->delete($id);
+    }
     public function getWallet()
     {
         // Get the authenticated user's ID

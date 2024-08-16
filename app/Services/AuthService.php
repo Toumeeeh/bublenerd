@@ -118,6 +118,15 @@ class AuthService
         }catch (FailedException $e) {
             return $this->failed($e->getMessage(), 422);}
     }
+    public function delete(int $id)
+{
+    try {
+        $this->authRepository->delete($id);
+        return $this->successWithData('','user deleted successfully',200);
+    } catch (CourseNotFoundException $e) {
+        return $this->failed($e->getMessage(), 404);
+    }
+}
     public function addMoney(array $data)
     {
         try {

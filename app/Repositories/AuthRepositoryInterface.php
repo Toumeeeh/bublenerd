@@ -17,5 +17,7 @@ interface AuthRepositoryInterface
 
     public function update(array $data, int $id);
     public function addMoney(array $data);
+    public function delete(int $id);
+
 
 }

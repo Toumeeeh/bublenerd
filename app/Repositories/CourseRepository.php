@@ -76,7 +76,6 @@ class CourseRepository implements CourseRepositoryInterface
             }])
             ->where('user_id', $userId)
             ->where('subject_id', $subjectId)
-            ->where('approved', '1')
             ->get();
 
         if ($courses->isEmpty()) {

@@ -243,5 +243,15 @@ class AuthRepository implements AuthRepositoryInterface
             throw new UserException("Unable to add money to user wallet: " . $e->getMessage());
         }
     }
+    public function delete(int $id)
+    {
+        $user = $this->user->find($id);
 
+        if (!$user) {
+            throw new CourseNotFoundException();
+        }
+        $user->delete();
+
+        return $user;
+    }
 }
